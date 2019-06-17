@@ -2,20 +2,20 @@
 
 ### 名词介绍
 
-1、DDL，英文叫做 Data Definition Language(数据定义语言)，它用来定义我们的数据库对象，包括数据库、数据表和列。__通过使用 DDL，我们可以创建，删除和修改数据库和表结构。__
+1、__DDL:__ Data Definition Language(数据定义语言)，它用来定义我们的数据库对象，包括数据库、数据表和列。__通过使用 DDL，我们可以创建，删除和修改数据库和表结构。__
 
-2、DML，英文叫做 Data Manipulation Language(数据操作语言)，我们 __通过DML操作和数据库相关的记录，比如增加、删除、修改数据表中的记录。__
+2、__DML:__ Data Manipulation Language(数据操作语言)，我们 __通过DML操作和数据库相关的记录，比如增加、删除、修改数据表中的记录。__
 
-3、DCL，英文叫做 Data Control Language(数据控制语言)，我们 __通过DCL可以来定义访问权限和安全级别。__
+3、__DCL:__ Data Control Language(数据控制语言)，我们 __通过DCL可以来定义访问权限和安全级别。__
 
-4、DQL，英文叫做 Data Query Language(数据查询语言)，__通过DQL可以查询想要的记录__ is important。
+4、__DQL:__ Data Query Language(数据查询语言)，__通过DQL可以查询想要的记录__ is important。
 
 
-DB 的英文是 DataBase，也就是数据库。数据库是存储数据的集合，你可以把它理解为多个数据表。
+__DB__ 的英文是 DataBase，也就是数据库。数据库是存储数据的集合，你可以把它理解为多个数据表。
 
-DBS 的英文是 DataBase System，数据库系统。它是更大的概念，包括了数据库、数据库管理系统以及数据库管理人员 DBA。
+__DBS__ 的英文是 DataBase System，数据库系统。它是更大的概念，包括了数据库、数据库管理系统以及数据库管理人员 DBA。
 
-DBMS 的英文全称是 DataBase Management System，数据库管理系统(如MySQL，Oracle)，实际上它可以对多个数据库进行管理，所以你可以理解为 DBMS = 多个数据库（DB） + 管理程序。
+__DBMS__ 的英文全称是 DataBase Management System，数据库管理系统(如MySQL，Oracle)，实际上它可以对多个数据库进行管理，所以你可以理解为 DBMS = 多个数据库（DB） + 管理程序。
 
 ### SQL 和 NoSQL
 
