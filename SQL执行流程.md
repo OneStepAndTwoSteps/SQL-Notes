@@ -4,7 +4,7 @@
 ### Oracle中SQL的执行流程
 
 
-<div align=center><img width="600" height="400" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/1.png"/></div>
+<div align=center><img width="700" height="350" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/1.png"/></div>
 
 __1、语法检查：__ 检查 SQL 拼写是否正确，如果不正确，Oracle 会报语法错误。
 
@@ -49,7 +49,7 @@ __使用绑定变量的优缺点：__
 
 __MySQL是C/S架构，整体架构由三部分组成：__
 
-<div align=center><img width="600" height="400" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/2.png"/></div>
+<div align=center><img width="700" height="400" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/2.png"/></div>
 
     1、连接层：客户端和服务器端建立连接，客户端发送 SQL 至服务器端；
 
@@ -62,7 +62,11 @@ __MySQL是C/S架构，整体架构由三部分组成：__
 __SQL层:__
 
 
+<<<<<<< HEAD
 <div align=center><img width="600" height="400" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/3.jpg"/></div>
+=======
+<div align=center><img width="450" height="500" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/3.jpg"/></div>
+>>>>>>> 21b8facabd693699866121e4b901f5885a4a629e
 
 __1、查询缓存：__ Server 如果在查询缓存中发现了这条 SQL 语句，就会直接将结果返回给客户端；如果没有，就进入到解析器阶段。需要说明的是，因为查询缓存往往效率不高，所以在 MySQL8.0 之后就抛弃了这个功能。
 
