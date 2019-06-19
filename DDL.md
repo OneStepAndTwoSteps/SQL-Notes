@@ -104,12 +104,15 @@ __(4) 删除字段__
 ### 3、DROP 相关的常用命令：
 
 __(1) 删除表：__
+
     DROP TABLE table_name;
 
 __(2) 删除索引__  
+
     DROP INDEX index_name;
 
 __(3) 删除视图__
+
     DROP VIEW [IF EXISTS] view_name [, view_name] ... [RESTRICT | CASCADE]
 
 ### 4、查看表结构：
@@ -118,7 +121,7 @@ __(3) 删除视图__
 
 ### 5、SHOW 相关的常用命令：
 
-#查看表状态信息
+    #查看表状态信息
 
     SHOW [FULL] TABLES [{FROM | IN} db_name] [LIKE 'pattern' | WHERE expr] 
 
