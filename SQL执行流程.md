@@ -62,7 +62,7 @@ __MySQL是C/S架构，整体架构由三部分组成：__
 __SQL层:__
 
 
-<div align=center><img width="600" height="400" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/3.png"/></div>
+<div align=center><img width="600" height="400" src="https://github.com/OneStepAndTwoSteps/SQL_is_important/blob/master/static/SQL%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/3.jpg"/></div>
 
 __1、查询缓存：__ Server 如果在查询缓存中发现了这条 SQL 语句，就会直接将结果返回给客户端；如果没有，就进入到解析器阶段。需要说明的是，因为查询缓存往往效率不高，所以在 MySQL8.0 之后就抛弃了这个功能。
 
