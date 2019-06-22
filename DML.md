@@ -1,17 +1,13 @@
-## DML
+## DML Data Manipulation Language(数据操作语言)
 
-__DML:__ Data Manipulation Language(数据操作语言)，我们 __通过DML操作和数据库相关的记录，比如增加、删除、修改数据表中的记录。__
+__我们 通过DML可以操作数据库相关的记录，比如增加、删除、修改数据表中的记录。__
 
 
-## DML常用语法：
+## DML常用语法：INSERT, DELETE, UPDATE, SELECT
 
-__INSERT, DELETE, UPDATE, SELECT__
+### INSERT：一次插入一行或多行数据；
 
-### INSERT：
-
-__一次插入一行或多行数据；__
-
-__INSERT：Syntax:__
+    # INSERT：Syntax:
 
     INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
         [INTO] tbl_name [(col_name,...)]
@@ -41,11 +37,9 @@ __Or:__
             [, col_name=expr] ... ]
 
 
-
-
 ### DELETE:
-__DELETE 语法：[]表示可选 {}表示必选__
-
+    
+    #DELETE 语法：[]表示可选 {}表示必选
 
     DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name
         [WHERE where_condition]
@@ -60,7 +54,7 @@ __DELETE 语法：[]表示可选 {}表示必选__
 
 ### UPDATE：
 
-__UPDATE 语法：[]表示可选 {}表示必选__
+    # UPDATE 语法：[]表示可选 {}表示必选
 
     UPDATE [LOW_PRIORITY] [IGNORE] table_reference
         SET col_name1={expr1|DEFAULT} [, col_name2={expr2|DEFAULT}] ...
@@ -100,7 +94,7 @@ __比如一个SQL语句的查询顺序：__
 
 #### 单表查询：
 
-__SELECT 语法：[]表示可选 {}表示必选__
+    # SELECT 语法：[]表示可选 {}表示必选__
 
     SELECT
         [ALL | DISTINCT | DISTINCTROW ]
@@ -259,24 +253,26 @@ __联合查询：UNION__
 首先，你可以注意到，SELECT 是先执行 FROM 这一步的。在这个阶段，如果是多张表联查，还会经历下面的几个步骤：
 
     1、首先先通过 CROSS JOIN 求笛卡尔积，相当于得到虚拟表 vt（virtual table）1-1；
+
     2、通过 ON 进行筛选，在虚拟表 vt1-1 的基础上进行筛选，得到虚拟表 vt1-2；
+
     3、添加外部行。如果我们使用的是左连接、右链接或者全连接，就会涉及到外部行，也就是在虚拟表 vt1-2 的基础上增加外部行，得到虚拟表 vt1-3。
 
 如果我们操作的是两张以上的表，还会重复上面的步骤，直到所有表都被处理完为止。这个过程得到是我们的原始数据。
 
-1、当我们拿到了查询数据表的原始数据，也就是最终的虚拟表 vt1，就可以在此基础上再进行 WHERE 阶段。在这个阶段中，会根据 vt1 表的结果进行筛选过滤，得到虚拟表 vt2。
+    1、当我们拿到了查询数据表的原始数据，也就是最终的虚拟表 vt1，就可以在此基础上再进行 WHERE 阶段。在这个阶段中，会根据 vt1 表的结果进行筛选过滤，得到虚拟表 vt2。
 
-2、然后进入第三步和第四步，也就是 GROUP 和 HAVING 阶段。在这个阶段中，实际上是在虚拟表 vt2 的基础上进行分组和分组过滤，得到中间的虚拟表 vt3 和 vt4。
+    2、然后进入第三步和第四步，也就是 GROUP 和 HAVING 阶段。在这个阶段中，实际上是在虚拟表 vt2 的基础上进行分组和分组过滤，得到中间的虚拟表 vt3 和 vt4。
 
-3、当我们完成了条件筛选部分之后，就可以筛选表中提取的字段，也就是进入到 SELECT 和 DISTINCT 阶段。
+    3、当我们完成了条件筛选部分之后，就可以筛选表中提取的字段，也就是进入到 SELECT 和 DISTINCT 阶段。
 
-4、首先在 SELECT 阶段会提取想要的字段，然后在 DISTINCT 阶段过滤掉重复的行，分别得到中间的虚拟表 vt5-1 和 vt5-2。
+    4、首先在 SELECT 阶段会提取想要的字段，然后在 DISTINCT 阶段过滤掉重复的行，分别得到中间的虚拟表 vt5-1 和 vt5-2。
 
-5、当我们提取了想要的字段数据之后，就可以按照指定的字段进行排序，也就是 ORDER BY 阶段，得到虚拟表 vt6。
+    5、当我们提取了想要的字段数据之后，就可以按照指定的字段进行排序，也就是 ORDER BY 阶段，得到虚拟表 vt6。
 
-6、最后在 vt6 的基础上，取出指定行的记录，也就是 LIMIT 阶段，得到最终的结果，对应的是虚拟表 vt7。
+    6、最后在 vt6 的基础上，取出指定行的记录，也就是 LIMIT 阶段，得到最终的结果，对应的是虚拟表 vt7。
 
-7、当然我们在写 SELECT 语句的时候，不一定存在所有的关键字，相应的阶段就会省略。
+    7、当然我们在写 SELECT 语句的时候，不一定存在所有的关键字，相应的阶段就会省略。
 
 
 
