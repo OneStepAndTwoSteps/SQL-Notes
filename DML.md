@@ -169,9 +169,14 @@ __WHERE子句：指明过滤条件以实现“选择”的功能：__
         IN (element1, element2, ...)
         IS NULL
         IS NOT NULL
+    
         LIKE: 
-            %: 任意长度的任意字符；
-            _：任意单个字符；
+            通配符：% 代表任意长度的任意字符；
+            通配符：_ 代表任意单个字符；
+
+        
+        注意：不过在实际操作过程中，我们还是建议尽量少用通配符，因为它需要消耗数据库更长的时间来进行匹配。即使对 LIKE 检索的字段进行了索引，索引的价值也可能会失效。如果要让索引生效，那么 LIKE 后面就不能以（%）开头，比如使用LIKE '%太%'或者LIKE '%太'的时候就会对全表进行扫描。如果使用LIKE '太%'，同时检索的字段进行了索引的时候，则不会进行全表扫描。
+
         RLIKE：
         REGEXP：匹配字符串可用正则表达式书写模式；
 
@@ -208,6 +213,47 @@ __LIMIT [[offset,]row_count]：对查询的结果进行输出行数数量限制�
         FOR UPDATE: 写锁，排他锁；
         LOCK IN SHARE MODE: 读锁，共享锁
 
+
+#### 小结
+
+__在进行SQL查询时不同的SQL语句查询的效率相差很大，保持高效率的一个方法就是要避免全表扫描，解决方法有在WHERE语句和在ORDER BY涉及到的列中增加索引。__
+
+__问：__
+
+    我们既然在WHERE语句中加了索引，为什么在ORDER BY语句中还要加索引？   
+
+__答：__
+
+    在MySQL中，支持两种排序方式：FileSort和Index排序。Index排序的效率更高，
+    Index排序：索引可以保证数据的有序性，因此不需要再进行排序。
+    FileSort排序：一般在内存中进行排序，占用CPU较多。如果待排结果较大，会产生临时文件I/O到磁盘进行排序，效率较低。
+
+    所以使用ORDER BY子句时，应该尽量使用Index排序，避免使用FileSort排序。
+    当然具体优化器是否采用索引进行排序，你可以使用explain来进行执行计划的查看。
+
+    优化建议：
+
+    1、SQL中，可以在WHERE子句和ORDER BY子句中使用索引，目的是在WHERE子句中避免全表扫描，ORDER BY子句避免使用FileSort排序。
+    当然，某些情况下全表扫描，或者FileSort排序不一定比索引慢。但总的来说，我们还是要避免，以提高查询效率。
+    一般情况下，优化器会帮我们进行更好的选择，当然我们也需要建立合理的索引。
+
+    2、尽量Using Index完成ORDER BY排序。如果WHERE和ORDER BY相同列就使用单索引列；如果不同使用联合索引。
+
+    3、无法Using Index时，对FileSort方式进行调优。
+
+__注意：__
+
+    除了考虑建立字段索引以外，你还需要考虑索引是否会存在失效，所以我们应该避免以下几点：
+
+    1、不要在WHERE子句后面对字段做函数处理，同时也避免对索引字段进行数据类型转换
+
+    2、避免在索引字段上使用<>，!=，以及对字段进行NULL判断（包括 IS NULL, IS NOT NULL）
+
+    3、在索引字段后，慎用IN和NOT IN，如果是连续的数值，可以考虑用BETWEEN进行替换
+
+__因为在WHERE子句中，如果对索引字段进行了函数处理，或者使用了<>,!=或NULL判断等，都会造成索引失效。__
+
+
 #### 多表查询：
 
 __JOIN Syntax:__
@@ -241,6 +287,7 @@ __子查询：在查询语句嵌套着查询语句__
         SELECT s.aage,s.ClassID FROM (SELECT avg(Age) AS aage,ClassID FROM students WHERE ClassID IS NOT NULL GROUP BY ClassID) AS s WHERE s.aage>30;
 
 __联合查询：UNION__
+
     SELECT Name,Age FROM students UNION SELECT Name,Age FROM teachers;
 
 
