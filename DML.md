@@ -2,6 +2,8 @@
 
 __我们 通过DML可以操作数据库相关的记录，比如增加、删除、修改数据表中的记录。__
 
+-《[个别例子中需要事先准备好表](https://github.com/OneStepAndTwoSteps/SQL-Notes/tree/master/%E6%95%B0%E6%8D%AE%E9%9B%86sql/sql_nba_data-master/)》
+
 
 ## DML常用语法：INSERT, DELETE, UPDATE, SELECT
 
@@ -66,6 +68,13 @@ __Or:__
         限制条件：
             WHERE
             LIMIT
+
+    例子：
+
+        UPDATE table_name SET column_name=values WHERE column_name=values
+
+        # 更新player表中的height=2.12 条件是player_id=10003
+        UPDATE player SET height=2.12 WHERE player_id=10003
 
 ### SELECT: 
 
@@ -279,17 +288,59 @@ __因为在WHERE子句中，如果对索引字段进行了函数处理，或者�
 
 __JOIN Syntax:__
 
-    交叉连接：笛卡尔乘积；
-    内连接：
-        等值连接：让表之间的字段以“等值”建立连接关系；
-        不等值连接
-        自然连接
-        自连接
-    外连接：
-        左外连接：
-            FROM tb1 LEFT JOIN tb2 ON tb1.col=tb2.col
-        右外连接
-            FROM tb1 RIGHT JOIN tb2 ON tb1.col=tb2.col
+__交叉连接：笛卡尔乘积；__
+
+笛卡尔乘积是一个数学运算。假设我有两个集合 X 和 Y，那么 X 和 Y 的笛卡尔积就是 X 和 Y 的所有可能组合，也就是第一个对象来自于 X，第二个对象来自于 Y 的所有可能。
+
+    我们假定 player 表的数据是集合 X，先进行 SQL 查询：
+
+        SELECT * FROM player
+
+    再假定 team 表的数据为集合 Y，同样需要进行 SQL 查询：
+        
+        SELECT * FROM team
+
+    接着我们再来看下两张表的笛卡尔积的结果，这是笛卡尔积的调用方式：
+
+        SQL: SELECT * FROM player, team
+
+
+__内连接：__
+
+    等值连接：让表之间的字段以“等值”建立连接关系；
+
+        SQL: SELECT player_id, player.team_id, player_name, height, team_name FROM player, team 
+        WHERE player.team_id = team.team_id
+
+    不等值连接
+
+        SQL：SELECT p.player_name, p.height, h.height_level FROM player AS p, height_grades AS h
+        WHERE p.height BETWEEN h.height_lowest AND h.height_highest
+
+
+    自连接
+
+        SQL：SELECT b.player_name, b.height FROM player as a , player as b 
+        WHERE a.player_name = '布雷克 - 格里芬' and a.height < b.height
+
+    自然连接
+
+
+__外连接：__
+
+    左外连接：
+
+        # +表示的表是从表，此处表示左外连接
+        SQL92标准：SELECT * FROM player, team where player.team_id = team.team_id(+)  
+        
+        SQL99标准：SELECT * FROM player LEFT JOIN team on player.team_id = team.team_id
+
+    右外连接
+
+        # +表示的表是从表，此处表示右外连接
+        SQL92标准：SELECT * FROM player, team where player.team_id(+) = team.team_id
+
+        SQL99标准：SELECT * FROM player RIGHT JOIN team on player.team_id = team.team_id
 
 __子查询：在查询语句嵌套着查询语句__
 
