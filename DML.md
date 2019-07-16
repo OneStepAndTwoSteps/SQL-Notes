@@ -52,7 +52,9 @@ __Or:__
         限制条件：
             WHERE
             LIMIT
-
+    例子：
+        
+        DELETE FROM  `table_name` WHERE column1 = 370;
 
 ### UPDATE：
 
