@@ -1,13 +1,13 @@
-## DML Data Manipulation Language(数据操作语言)
+# DML Data Manipulation Language(数据操作语言)
 
 __我们 通过DML可以操作数据库相关的记录，比如增加、删除、修改数据表中的记录。__
 
 -《[个别例子中需要事先准备好表](https://github.com/OneStepAndTwoSteps/SQL-Notes/tree/master/%E6%95%B0%E6%8D%AE%E9%9B%86sql/sql_nba_data-master/)》
 
 
-## DML常用语法：INSERT, DELETE, UPDATE, SELECT
+# DML常用语法：INSERT, DELETE, UPDATE, SELECT
 
-### INSERT：一次插入一行或多行数据；
+## INSERT：一次插入一行或多行数据；
 
     # INSERT：Syntax:
 
@@ -39,7 +39,7 @@ __Or:__
             [, col_name=expr] ... ]
 
 
-### DELETE:
+## DELETE:
     
     #DELETE 语法：[]表示可选 {}表示必选
 
@@ -56,7 +56,7 @@ __Or:__
         
         DELETE FROM  `table_name` WHERE column1 = 370;
 
-### UPDATE：
+## UPDATE：
 
     # UPDATE 语法：[]表示可选 {}表示必选
 
@@ -78,7 +78,7 @@ __Or:__
         # 更新player表中的height=2.12 条件是player_id=10003
         UPDATE player SET height=2.12 WHERE player_id=10003
 
-### SELECT: 
+## SELECT: 
 
 Mysql8.0以前：查询执行路径中的组件：查询缓存、解析器、预处理器、优化器、查询执行引擎、存储引擎；
 
@@ -103,7 +103,7 @@ __比如一个SQL语句的查询顺序：__
 
 
 
-#### 单表查询：
+### 单表查询：
 
     # SELECT 语法：[]表示可选 {}表示必选__
 
@@ -121,7 +121,7 @@ __比如一个SQL语句的查询顺序：__
         [LIMIT {[offset,] row_count | row_count OFFSET offset}]
         [FOR UPDATE | LOCK IN SHARE MODE]
 
-__SELECT 常规用法：__
+### SELECT 常规用法：
 
     SELECT 字段1,字段2... FROM 表1
     SELECT * FROM 表1
@@ -140,7 +140,7 @@ __SELECT 常规用法：__
     查询常数1       内容3
     查询常数1       内容4
 
-__DISTINCT: 数据去重；__
+#### DISTINCT: 数据去重；
 
 __注意：__
 
@@ -152,7 +152,7 @@ __注意：__
     SELECT DISTINCT 字段1 FROM 表1
 
 
-__显式指明是否使用缓存查询内容:__
+#### 显式指明是否使用缓存查询内容:
 
     SQL_CACHE: 显式指定存储查询结果于缓存之中；
 
@@ -169,7 +169,7 @@ __例子：__
 
     SELECT SQL_CACHE  *  FROM table1;
 
-__WHERE子句：指明过滤条件以实现“选择”的功能：__
+#### WHERE子句：指明过滤条件以实现“选择”的功能：
 
     过滤条件：布尔型表达式；
 
@@ -197,13 +197,13 @@ __WHERE子句：指明过滤条件以实现“选择”的功能：__
 
 __使用通配符时注意：__ 不过在实际操作过程中，我们还是建议尽量少用通配符，因为它需要消耗数据库更长的时间来进行匹配。即使对 LIKE 检索的字段进行了索引，索引的价值也可能会失效。如果要让索引生效，那么 LIKE 后面就不能以（%）开头，比如使用LIKE '%太%'或者LIKE '%太'的时候就会对全表进行扫描。如果使用LIKE '太%'，同时检索的字段进行了索引的时候，则不会进行全表扫描。
 
-__GROUP：根据指定的条件把查询结果进行“分组”以用于做“聚合”运算：__
+#### GROUP：根据指定的条件把查询结果进行“分组”以用于做“聚合”运算：
 
     avg(), max(), min(), count(), sum()
 
     HAVING: 对分组聚合运算后的结果指定过滤条件；
 
-__ORDER BY: 根据指定的字段对查询结果进行排序；__
+#### ORDER BY: 根据指定的字段对查询结果进行排序；
 
 __1、排序的列名：__ ORDER BY 后面可以有一个或多个列名，如果是多个列名进行排序，会按照后面第一个列先进行排序，当第一列的值相同的时候，再按照第二列进行排序，以此类推。
 
@@ -223,7 +223,7 @@ __LIMIT [[offset,]row_count]：对查询的结果进行输出行数数量限制�
         LOCK IN SHARE MODE: 读锁，共享锁
 
 
-__HAVING 和 WHERE 的区别：__
+#### HAVING 和 WHERE 的区别：
 
 当我们创建出很多分组的时候，有时候就需要对分组进行过滤。你可能首先会想到 WHERE 子句，实际上过滤分组我们使用的是 HAVING。HAVING 的作用和 WHERE 一样，都是起到过滤的作用，只不过 __WHERE 是用于数据行，而 HAVING 则作用于分组__。同时我们应该知道，__HAVING 支持所有 WHERE 的操作，因此所有需要 WHERE 子句实现的功能，你都可以使用 HAVING 对分组进行筛选。__
 
@@ -246,7 +246,7 @@ __案例:王者荣耀英雄属性数据__
 
 __注意：__ 如果把 HAVING 替换成了 WHERE，SQL 则会报错。对于分组的筛选，我们一定要用 HAVING，而不是 WHERE。另外你需要知道的是，HAVING 支持所有 WHERE 的操作，因此所有需要 WHERE 子句实现的功能，你都可以使用 HAVING 对分组进行筛选。
 
-#### 小结
+### 小结
 
 __在进行SQL查询时不同的SQL语句查询的效率相差很大，保持高效率的一个方法就是要避免全表扫描，解决方法有在WHERE语句和在ORDER BY涉及到的列中增加索引。__
 
@@ -273,7 +273,7 @@ __答：__
 
     3、无法Using Index时，对FileSort方式进行调优。
 
-__使用索引查询时注意：__
+#### 使用索引查询时注意：
 
     除了考虑建立字段索引以外，你还需要考虑索引是否会存在失效，所以我们应该避免以下几点：
 
@@ -286,11 +286,11 @@ __使用索引查询时注意：__
 __因为在WHERE子句中，如果对索引字段进行了函数处理，或者使用了<>,!=或NULL判断等，都会造成索引失效。__
 
 
-#### 多表查询：
+### 多表查询：
 
-__JOIN Syntax:__
+#### JOIN Syntax:
 
-__交叉连接：笛卡尔乘积；__
+#### 交叉连接：笛卡尔乘积；
 
 笛卡尔乘积是一个数学运算。假设我有两个集合 X 和 Y，那么 X 和 Y 的笛卡尔积就是 X 和 Y 的所有可能组合，也就是第一个对象来自于 X，第二个对象来自于 Y 的所有可能。
 
@@ -307,62 +307,96 @@ __交叉连接：笛卡尔乘积；__
         SQL: SELECT * FROM player, team
 
 
-__内连接：__
+#### 内连接：
 
-    等值连接：让表之间的字段以“等值”建立连接关系；
+__等值连接__：让表之间的字段以“等值”建立连接关系；
 
-        SQL: SELECT player_id, player.team_id, player_name, height, team_name FROM player, team 
-        WHERE player.team_id = team.team_id
+    SQL: SELECT player_id, player.team_id, player_name, height, team_name FROM player, team 
+    WHERE player.team_id = team.team_id
 
-    不等值连接
+__不等值连接__
 
-        SQL：SELECT p.player_name, p.height, h.height_level FROM player AS p, height_grades AS h
-        WHERE p.height BETWEEN h.height_lowest AND h.height_highest
-
-
-    自连接
-
-        SQL：SELECT b.player_name, b.height FROM player as a , player as b 
-        WHERE a.player_name = '布雷克 - 格里芬' and a.height < b.height
-
-    自然连接
+    SQL：SELECT p.player_name, p.height, h.height_level FROM player AS p, height_grades AS h
+    WHERE p.height BETWEEN h.height_lowest AND h.height_highest
 
 
-__外连接：__
+__自连接__
 
-    左外连接：
+    SQL：SELECT b.player_name, b.height FROM player as a , player as b 
+    WHERE a.player_name = '布雷克 - 格里芬' and a.height < b.height
 
-        # +表示的表是从表，此处表示左外连接
-        SQL92标准：SELECT * FROM player, team where player.team_id = team.team_id(+)  
+__自然连接__
         
-        SQL99标准：SELECT * FROM player LEFT JOIN team on player.team_id = team.team_id
+它会帮你自动查询两张连接表 __所有相同的字段__，然后进行等值连接。
+    
+    SELECT player_id, team_id, player_name, height, team_name FROM player NATURAL JOIN team 
 
-    右外连接
 
-        # +表示的表是从表，此处表示右外连接
-        SQL92标准：SELECT * FROM player, team where player.team_id(+) = team.team_id
 
-        SQL99标准：SELECT * FROM player RIGHT JOIN team on player.team_id = team.team_id
+#### 外连接：
 
-__子查询：在查询语句嵌套着查询语句__
+__左外连接：__
 
-    基于某语句的查询结果再次进行的查询
+    # +表示的表是从表，此处表示左外连接
+    SQL92标准：SELECT * FROM player, team where player.team_id = team.team_id(+)  
+    
+    SQL99标准：SELECT * FROM player LEFT JOIN team on player.team_id = team.team_id
 
-    用在WHERE子句中的子查询：
-        (1) 用于比较表达式中的子查询；子查询仅能返回单个值；
-            SELECT Name,Age FROM students WHERE Age>(SELECT avg(Age) FROM students);
-        (2) 用于IN中的子查询：子查询应该单键查询并返回一个或多个值从构成列表；
-            SELECT Name,Age FROM students WHERE Age IN (SELECT Age FROM teachers);
-        (3) 用于EXISTS；
+__右外连接__
 
-    用于FROM子句中的子查询；
-        使用格式：SELECT tb_alias.col1,... FROM (SELECT clause) AS tb_alias WHERE Clause; 
-        示例：
-        SELECT s.aage,s.ClassID FROM (SELECT avg(Age) AS aage,ClassID FROM students WHERE ClassID IS NOT NULL GROUP BY ClassID) AS s WHERE s.aage>30;
+    # +表示的表是从表，此处表示右外连接
+    SQL92标准：SELECT * FROM player, team where player.team_id(+) = team.team_id
 
-__联合查询：UNION__
+    SQL99标准：SELECT * FROM player RIGHT JOIN team on player.team_id = team.team_id
+
+
+#### USING 连接
+
+当我们进行连接的时候，可以用 USING __指定数据表里的同名字段进行等值连接__。比如：
+
+    SELECT player_id, team_id, player_name, height, team_name FROM player JOIN team USING(team_id)
+
+
+#### 子查询：在查询语句嵌套着查询语句
+
+基于某语句的查询结果再次进行的查询
+
+用在WHERE子句中的子查询：
+
+    (1) 用于比较表达式中的子查询；子查询仅能返回单个值；
+        SELECT Name,Age FROM students WHERE Age>(SELECT avg(Age) FROM students);
+    (2) 用于IN中的子查询：子查询应该单键查询并返回一个或多个值从构成列表；
+        SELECT Name,Age FROM students WHERE Age IN (SELECT Age FROM teachers);
+    (3) 用于EXISTS；
+
+用于FROM子句中的子查询；
+
+    使用格式：SELECT tb_alias.col1,... FROM (SELECT clause) AS tb_alias WHERE Clause; 
+    示例：
+    SELECT s.aage,s.ClassID FROM (SELECT avg(Age) AS aage,ClassID FROM students WHERE ClassID IS NOT NULL GROUP BY ClassID) AS s WHERE s.aage>30;
+
+#### 联合查询：UNION
 
     SELECT Name,Age FROM students UNION SELECT Name,Age FROM teachers;
+
+
+#### 多表连接公式
+
+    SELECT ...
+    FROM table1
+        JOIN table2 ON table1 和 table2 的连接条件
+            JOIN table3 ON table_num 和 table3 的连接条件  #table_num为table1或者table2
+
+
+#### 多表嵌套公式
+
+    for t1 in table1:
+        for t2 in table2:
+        if condition1:
+            for t3 in table3:
+                if condition2:
+                    output t1 + t2 + t3
+
 
 
 
