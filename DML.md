@@ -103,7 +103,7 @@ __比如一个SQL语句的查询顺序：__
 
 
 
-### 单表查询：
+## 单表查询：
 
     # SELECT 语法：[]表示可选 {}表示必选__
 
@@ -121,7 +121,7 @@ __比如一个SQL语句的查询顺序：__
         [LIMIT {[offset,] row_count | row_count OFFSET offset}]
         [FOR UPDATE | LOCK IN SHARE MODE]
 
-### SELECT 常规用法：
+## SELECT 常规用法：
 
     SELECT 字段1,字段2... FROM 表1
     SELECT * FROM 表1
@@ -169,7 +169,7 @@ __例子：__
 
     SELECT SQL_CACHE  *  FROM table1;
 
-#### WHERE子句：指明过滤条件以实现“选择”的功能：
+### WHERE子句：指明过滤条件以实现“选择”的功能：
 
     过滤条件：布尔型表达式；
 
@@ -250,11 +250,11 @@ __注意：__ 如果把 HAVING 替换成了 WHERE，SQL 则会报错。对于分
 
 __在进行SQL查询时不同的SQL语句查询的效率相差很大，保持高效率的一个方法就是要避免全表扫描，解决方法有在WHERE语句和在ORDER BY涉及到的列中增加索引。__
 
-__问：__
+问：
 
     我们既然在WHERE语句中加了索引，为什么在ORDER BY语句中还要加索引？   
 
-__答：__
+答：
 
     在MySQL中，支持两种排序方式：FileSort和Index排序。Index排序的效率更高，
     Index排序：索引可以保证数据的有序性，因此不需要再进行排序。
@@ -286,9 +286,7 @@ __答：__
 __因为在WHERE子句中，如果对索引字段进行了函数处理，或者使用了<>,!=或NULL判断等，都会造成索引失效。__
 
 
-### 多表查询：
-
-#### JOIN Syntax:
+## 多表查询：
 
 #### 交叉连接：笛卡尔乘积；
 
@@ -309,23 +307,23 @@ __因为在WHERE子句中，如果对索引字段进行了函数处理，或者�
 
 #### 内连接：
 
-__等值连接__：让表之间的字段以“等值”建立连接关系；
+等值连接：让表之间的字段以“等值”建立连接关系；
 
     SQL: SELECT player_id, player.team_id, player_name, height, team_name FROM player, team 
     WHERE player.team_id = team.team_id
 
-__不等值连接__
+不等值连接
 
     SQL：SELECT p.player_name, p.height, h.height_level FROM player AS p, height_grades AS h
     WHERE p.height BETWEEN h.height_lowest AND h.height_highest
 
 
-__自连接__
+自连接
 
     SQL：SELECT b.player_name, b.height FROM player as a , player as b 
     WHERE a.player_name = '布雷克 - 格里芬' and a.height < b.height
 
-__自然连接__
+自然连接
         
 它会帮你自动查询两张连接表 __所有相同的字段__，然后进行等值连接。
     
@@ -335,14 +333,14 @@ __自然连接__
 
 #### 外连接：
 
-__左外连接：__
+左外连接：
 
     # +表示的表是从表，此处表示左外连接
     SQL92标准：SELECT * FROM player, team where player.team_id = team.team_id(+)  
     
     SQL99标准：SELECT * FROM player LEFT JOIN team on player.team_id = team.team_id
 
-__右外连接__
+右外连接
 
     # +表示的表是从表，此处表示右外连接
     SQL92标准：SELECT * FROM player, team where player.team_id(+) = team.team_id
