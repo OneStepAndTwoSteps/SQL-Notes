@@ -59,7 +59,7 @@ SQL 的存储过程和视图一样，都是对 SQL 代码进行封装，可以�
 
 #### 如下例子
 
-    1、DELIMITER //；
+    1、DELIMITER //
 
     2、 CREATE PROCEDURE `add_num`(IN n INT)
         BEGIN
@@ -83,7 +83,7 @@ SQL 的存储过程和视图一样，都是对 SQL 代码进行封装，可以�
 
 #### OUT 参数 例子
 
-    1、DELIMITER //；
+    1、DELIMITER //
 
     2、CREATE PROCEDURE `get_player_id` (OUT test INT;OUT max_play_id INT) BEGIN SELECT MAX(player_id) FROM player INTO play_id; END//
 
