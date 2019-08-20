@@ -1,5 +1,6 @@
 # python连接mysql
 
+## 普通方法：
 
 ### 下载包
 
@@ -79,9 +80,148 @@
         # 打印异常信息
         traceback.print_exc()
     
+## orm方法：
+
+如何使用 sqlalchemy 对数据库进行操作
 
 
+### 下载包
 
+    pip install sqlalchemy
+
+### 导入包
+
+*   __数据库连接包__
+
+    from sqlalchemy import create_engine
+
+*   __定义列数据的方法__
+
+    from sqlalchemy import Integer,Float,Column,String
+
+*   __sqlalchemy基类__
+
+    from sqlalchemy.ext.declarative import declarative_base
+
+*   __用于建立会话__
+
+    from sqlalchemy.orm import sessionmaker
+
+*   __或方法__
+
+    from sqlalchemy import or_
+
+*   __func中提供了函数方法__
+
+    from sqlalchemy import func
+
+
+### 创建连接对象
+
+    # 传入数据库名, 用户名, 密码以及ip, 建立连接数据库的引擎engine(负责与数据库驱动程序进行交互), 加入echo=True则会打印创建过程
+    engine=create_engine('mysql+mysqldb://sql_user:sql_user_pass@ip:3306/databases?charset=utf8')
+
+    # 通过继承sqlalchemy生成的基类来建立与数据库表对应的类(一个类在数据库中表现为一张表)
+    Base = declarative_base()
+
+
+### 创建表结构
+
+    # 自定义类, 本质就是设置数据库对应表中字段格式
+    class Player(Base):
+        # 设置表名, 固定格式
+        __tablename__='player'
+        
+        # 表的结构
+        # 默认就是自增长, 不加autoincrement=True参数也可
+        player_id=Column(Integer,primary_key=True,autoincrement=True)
+        team_id=Column(Integer)
+        player_name=Column(String(255))
+        height=Column(Float(3,2))
+
+### 给Base类创建一个方法(该方法可以将数据转化成字典格式)
+
+    def to_dict(self):
+    # c.name 每个列名下面的值
+    return {c.name:getattr(self,c.name,None)
+            # __table__.columns它将为您提供SQL字段名称，而不是您在ORM定义中使用的属性名称
+           for c in self.__table__.columns}
+
+
+### 操作数据库
+
+
+*   __创建 DBSession 类型:__
+
+    DBSession = sessionmaker(bind=engine)
+
+*   __创建 session 对象:__
+
+    ession = DBSession()
+
+*   __将对象可以转化为 dict 类型 Base中本无 to_dict() 这里我们创建一个。__
+
+    Base.to_dict=to_dict
+
+
+*   __查询数据__
+
+    and 关系
+
+    rows =session.query(Player).filter(Player.height > 2.01,Player.height <=2.03).all()
+
+    或关系
+
+    rows =session.query(Player).filter(or_(Player.height > 2.01,Player.height <=2.03)).all()
+
+*   __添加数据__   
+    
+    new_player = Player(team_id = 1003, player_name = " 约翰 - 科林斯 ", height = 2.08)
+
+    添加到 session:
+
+    session.add(new_player)
+    
+*   __修改数据__
+
+    row = session.query(Player).filter(Player.player_name=='索恩 - 马克').first()
+
+    row.height = 2.17
+
+    session.commit()
+
+    session.close()
+
+    
+*   __删除数据__
+
+    row = session.query(Player).filter(Player.player_name=='约翰 - 科林斯').first()
+
+    session.delete(row)
+
+    session.commit()
+
+    session.close()
+
+*   __调用sql函数__
+
+    rows = session.query(Player.team_id, func.count(Player.player_id)).group_by(Player.team_id).having(func.count(Player.player_id)>5).order_by(func.count(Player.player_id).asc()).all()
+
+    print(rows)
+
+    
+    
+*   __可以使用 上面 Base 中定义的方法，将数据转成dict__
+    
+    print([row.to_dict() for row in rows])
+
+*   __提交即保存到数据库:__
+
+    session.commit()
+
+*   __关闭 session:__
+
+    session.close()
 
 
 
