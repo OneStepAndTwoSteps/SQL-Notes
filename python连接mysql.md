@@ -91,28 +91,22 @@
 
 ### 导入包
 
-*   __数据库连接包__
-
+    # 数据库连接包
     from sqlalchemy import create_engine
 
-*   __定义列数据的方法__
-
+    # 定义列数据的方法
     from sqlalchemy import Integer,Float,Column,String
 
-*   __sqlalchemy基类__
-
+    # sqlalchemy基类
     from sqlalchemy.ext.declarative import declarative_base
 
-*   __用于建立会话__
-
+    # 用于建立会话
     from sqlalchemy.orm import sessionmaker
 
-*   __或方法__
-
+    # 或方法
     from sqlalchemy import or_
 
-*   __func中提供了函数方法__
-
+    # func中提供了函数方法
     from sqlalchemy import func
 
 
@@ -148,19 +142,15 @@
            for c in self.__table__.columns}
 
 
-### 操作数据库
+## 操作数据库
 
-
-*   __创建 DBSession 类型:__
-
+    创建 DBSession 类型:
     DBSession = sessionmaker(bind=engine)
 
-*   __创建 session 对象:__
-
+    创建 session 对象:
     ession = DBSession()
 
-*   __将对象可以转化为 dict 类型 Base中本无 to_dict() 这里我们创建一个。__
-
+    将对象可以转化为 dict 类型 Base中本无 to_dict() 这里我们创建一个。
     Base.to_dict=to_dict
 
 
@@ -209,17 +199,15 @@
 
     print(rows)
 
-    
-    
-*   __可以使用 上面 Base 中定义的方法，将数据转成dict__
-    
+*
+
+    # 可以使用 上面 Base 中定义的方法，将数据转成dict
     print([row.to_dict() for row in rows])
 
-*   __提交即保存到数据库:__
-
+    # 提交即保存到数据库:
     session.commit()
 
-*   __关闭 session:__
+    # 关闭 session:
 
     session.close()
 
