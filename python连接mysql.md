@@ -199,7 +199,7 @@
 
     print(rows)
 
-*
+
 
     # 可以使用 上面 Base 中定义的方法，将数据转成dict
     print([row.to_dict() for row in rows])
