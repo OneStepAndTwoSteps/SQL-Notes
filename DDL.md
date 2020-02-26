@@ -104,6 +104,14 @@ __(4) 删除字段__
     # 删除 player_age 字段
     ALTER TABLE student DROP COLUMN player_age;
 
+__(4) 修改索引__
+
+    # 创建一个普通索引 product_comment 是表名 comment_text 是字段名称
+
+    ALTER TABLE product_comment ADD INDEX (comment_text);
+
+
+
 
 ### 四、DROP 相关的常用命令：
 
