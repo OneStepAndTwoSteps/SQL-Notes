@@ -100,6 +100,35 @@ __比如一个SQL语句的查询顺序：__
     ORDER BY num DESC # 顺序 6
     LIMIT 2 # 顺序 7
 
+## SHOW:
+
+查看表的一些信息
+
+show table status like "表名(支持模糊匹配)"\G
+
+
+    MariaDB [test]> show table status like "t"\G
+    *************************** 1. row ***************************
+            Name: t
+            Engine: InnoDB
+            Version: 10
+        Row_format: Compact         # 行记录格式
+            Rows: 0
+    Avg_row_length: 0
+        Data_length: 16384
+    Max_data_length: 0
+    Index_length: 0
+        Data_free: 5242880
+    Auto_increment: NULL
+        Create_time: 2020-03-14 15:44:53
+        Update_time: NULL
+        Check_time: NULL
+        Collation: utf8_general_ci  # 字符规范
+        Checksum: NULL
+    Create_options: 
+            Comment: 
+    1 row in set (0.00 sec)
+
 
 
 
