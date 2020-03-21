@@ -20,8 +20,10 @@
 `以下组的启动选项将作用于所有的服务器程序。`
 
     [server]                        
-    (具体的启动选项...)
-    
+    innodb_file_per_table=0         # 当innodb_file_per_table的值为0时，代表新建表使用系统表空间；
+                                    # 当innodb_file_per_table的值为1时，代表新建表使用独立表空间。
+
+
     skip-networking                 # 跳过网络连接
     default-storage-engine=MyISAM   # 默认引擎为MyISAM存储引擎
 
