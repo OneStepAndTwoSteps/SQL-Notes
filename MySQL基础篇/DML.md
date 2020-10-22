@@ -90,6 +90,14 @@ __SELECT语句的执行流程：__
 
     FROM Clause --> WHERE Clause --> GROUP BY --> HAVING Clause --> ORDER BY --> SELECT --> LIMIT
 
+    SELECT [DISTINCT] 查询列表
+    [FROM 表名]
+    [WHERE 布尔表达式]
+    [GROUP BY 分组列表 ]
+    [HAVING 分组过滤条件]
+    [ORDER BY 排序列表]
+    [LIMIT 开始行, 限制条数]
+
 __比如一个SQL语句的查询顺序：__
 
     SELECT DISTINCT player_id, player_name, count(*) as num # 顺序 5
@@ -226,13 +234,46 @@ __例子：__
 
 __使用通配符时注意：__ 不过在实际操作过程中，我们还是建议尽量少用通配符，因为它需要消耗数据库更长的时间来进行匹配。即使对 LIKE 检索的字段进行了索引，索引的价值也可能会失效。如果要让索引生效，那么 LIKE 后面就不能以（%）开头，比如使用LIKE '%太%'或者LIKE '%太'的时候就会对全表进行扫描。如果使用LIKE '太%'，同时检索的字段进行了索引的时候，则不会进行全表扫描。
 
-#### GROUP：根据指定的条件把查询结果进行“分组”以用于做“聚合”运算：
+### GROUP BY：根据指定的条件把查询结果进行“分组”以用于做“聚合”运算：
+
+
+注意事项：
+
+*   如果分组列中含有 `NULL` 值，那么 `NULL` 也会作为一个独立的分组存在。
+
+*   如果存在多个分组列，也就是嵌套分组，聚集函数将作用在最后的那个分组列上，如：
+
+        # 分组之后再分组
+        SELECT department, major, COUNT(*) FROM student_info GROUP BY department, major;
+
+        最后的聚集函数作用在 major 上，major有多少个计数，最后就显示多少。
+
+*   如果查询语句中存在 `WHERE` 子句和 `ORDER BY` 子句，那么 `GROUP BY` 子句必须出现在 `WHERE` 子句之后，`ORDER BY` 子句之前。
+
+*   `非分组列` 不能单独出现在检索列表中(可以被放到聚集函数中),如果设置了 `ONLY_FULL_GROUP_BY` 模式，可以放置非分组类，如：
+
+        1、规范：SELECT  subject, AVG(score) FROM student_score GROUP BY subject;
+
+        规范的写法就是 GROUP BY subject 那么前面的 SEKECT 的内容就只写 subject，或者再带上聚集函数。
+
+        2、不规范：SELECT number, subject, AVG(score) FROM student_score GROUP BY subject;
+
+        在 SELECT 的时候引入了非分组类：number，所以不规范，即使开了 ONLY_FULL_GROUP_BY 模式，最后的出来的 number 列也没有什么实际意义，如，显示的 number 列数据内容全一致。
+
+*   `GROUP BY` 子句后也可以跟随表达式(但不能是聚集函数)。
+
+常用聚集函数：
 
     avg(), max(), min(), count(), sum()
 
-    HAVING: 对分组聚合运算后的结果指定过滤条件；
+可以针对分组的条件放到 HAVING 子句中 (HAVING: 对分组聚合运算后的结果指定过滤条件；),如：
 
-#### ORDER BY: 根据指定的字段对查询结果进行排序；
+    # 查询平均分大于73分的课程
+    SELECT subject, AVG(score) FROM student_score GROUP BY subject HAVING AVG(score) > 73;
+
+        
+
+### ORDER BY: 根据指定的字段对查询结果进行排序；
 
 __1、排序的列名：__ 
 
@@ -260,7 +301,7 @@ __LIMIT [[offset,]row_count]：对查询的结果进行输出行数数量限制�
         LOCK IN SHARE MODE: 读锁，共享锁
 
 
-#### HAVING 和 WHERE 的区别：
+### HAVING 和 WHERE 的区别：
 
 当我们创建出很多分组的时候，有时候就需要对分组进行过滤。你可能首先会想到 WHERE 子句，实际上过滤分组我们使用的是 HAVING。HAVING 的作用和 WHERE 一样，都是起到过滤的作用，只不过 __WHERE 是用于数据行，而 HAVING 则作用于分组__。同时我们应该知道，__HAVING 支持所有 WHERE 的操作，因此所有需要 WHERE 子句实现的功能，你都可以使用 HAVING 对分组进行筛选。__
 
